@@ -36,7 +36,7 @@ const generateAceesAndRefreshTokens = async(userId) => {
 
 const registerUser = asyncHandler(async(req,res) => {
 
-
+    console.log('Received form data:', req.body);
 
     const {username,fullName,email,password} = req.body
     
@@ -95,6 +95,7 @@ const registerUser = asyncHandler(async(req,res) => {
 // console.log(req.files.avatar)
 //  console.log("avatr:",req.files.avatar)
     const avatarLocalpath =  req.files?.avatar[0]?.path;
+    console.log(req.files?.avatar[0])
     // const coverImageLocalpath = req.files?.coverImage[0]?.path;
   
     if(!avatarLocalpath)
@@ -171,7 +172,7 @@ const loginUser = asyncHandler(async(req,res) => {
         $or: [{username} ,{email}]
       })
   
-         console.log(existedUser)
+         
       if(!existedUser){
         throw new apiError(404,"Sign up first || user doen not exiseted")
       }   

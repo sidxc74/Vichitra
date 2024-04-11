@@ -1,9 +1,13 @@
 import { useState } from 'react'
+import useAuthStore from './state/clientState'
 
 import './App.css'
 
 function App() {
 
+  const isauth =  useAuthStore((state) => state.isAuthenticated)
+
+  if(isauth) console.log("i am login")
 
   return (
    
