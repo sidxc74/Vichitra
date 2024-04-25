@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 const app = express()
 app.use(
     cors({
-      origin: 'http://localhost:5173', // Replace with the origin of your frontend application
+      origin: 'https://xube.vercel.app', // Replace with the origin of your frontend application
       credentials: true
     })
   )
