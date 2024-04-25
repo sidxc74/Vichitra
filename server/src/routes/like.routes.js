@@ -5,9 +5,13 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {   toggleCommentLike,
     toggleTweetLike,
     toggleVideoLike,
-    getLikedVideos} from "../controllers/like.controler.js"
+    getLikedVideos,
+    getAllLikesForVideo} from "../controllers/like.controler.js"
 
 const router = Router();
+
+
+router.route('/allvideolikes/:videoId').get(getAllLikesForVideo);
 
 router.use(verifyJWT)
 

@@ -5,8 +5,106 @@ import apiError from "../utils/apiError.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { deleteOnClodinary, uplaodOnCloudinary } from "../utils/cloudinary.js";
+import { Like } from "../models/like.models.js";
 
-const getAllVideos = asyncHandler(async (req, res) => {
+
+
+const getAllVideos = asyncHandler(async(req,res) => {
+
+
+    const { page = 1, limit = 10, query, sortBy, sortType } = req.query
+    
+
+
+
+   
+    // console.log(query,typeof query);
+    
+    const pipline = []
+
+    if(query){
+        pipline.push({
+            $match:{
+               isPublished:false
+            }
+        })
+    }
+
+    let createFeiild = {}
+    if(sortBy && sortType){
+        createFeiild[sortBy] = sortType === "asc" ?1:-1
+        
+        pipline.push({
+            $sort:createFeiild
+        })
+    }
+    else{
+        createFeiild["createdAt"] =-1
+        
+        pipline.push({
+            $sort:createFeiild
+        })
+    }
+
+    pipline.push({
+        $skip: (page - 1) * limit
+    });
+    pipline.push({
+        $limit: limit
+    });
+
+    pipline.push({
+        $lookup: {
+            from: "users", // Assuming your user collection is named 'users'
+            localField: "owner",
+            foreignField: "_id",
+            as: "ownerInfo"
+        }
+    });
+
+    pipline.push({
+        $addFields: {
+            "owner": { $arrayElemAt: ["$ownerInfo", 0] }
+        }
+    });
+
+    pipline.push({
+        $project: {
+            ownerInfo: 0 // Remove the ownerInfo field from the response
+        }
+    });
+    // console.log(pipline);
+    /*
+    [
+  { '$match': { owner: new ObjectId('65e0782461c4addc4efa7528') } },  
+  { '$match': { isPublished: false } },
+  { '$sort': { isPublished: 1 } },
+  { '$skip': 0 },
+  { '$limit': 10 }
+] */
+
+   const allVedios =  await Vedio.aggregate(pipline)
+   if(!allVedios){
+    throw new apiError(400,"pipline aggreagtion problem")
+   }
+
+   res.status(200).json(
+    new apiResponse(
+        200,
+        allVedios,
+        `all vedios are here count:${allVedios.length}` 
+    )
+   )
+      
+      
+})
+
+
+
+
+
+
+const getAllVideosUser = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
 
@@ -120,9 +218,10 @@ const publishAVideo = asyncHandler(async (req, res) => {
         owner:req.user?._id,  
         title:title,
         description:description,
-        duration:vedio.duration,
+        // duration:vedio.duration,
+        duration:vedio?.duration,
         views:0,
-        isPublished : false,
+        isPublished : true,
     })
     return res.status(200).json(
         new apiResponse(
@@ -136,18 +235,43 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
 })
 
+
+
+
+ // Assuming you've imported your Vedio model
+
+const incrementVideoViews = asyncHandler( async (req, res) => {
+  const { videoId } = req.params;
+
+  try {
+    // Find the video by ID and increment its views
+    const video = await Vedio.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+
+    if (!video) {
+      return res.status(404).json({ success: false, message: "Video not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Views incremented successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+
+
+
 const getVideoById = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     //TODO: get video by id
 
 
    const userVedio = await Vedio.findById(videoId)
-   console.log(userVedio?.owner.toString());
-   console.log(req.user?._id.toString());
+//    console.log(userVedio?.owner.toString());
+//    console.log(req.user?._id.toString());
 
-   if(!userVedio || ((!userVedio.isPublished) && (!userVedio.owner === req.user._id))){
-    throw new apiError(400,"vedio ur seacrching for doesnot exist")
-   }
+//    if(!userVedio || ((!userVedio.isPublished) && (!userVedio.owner === req.user._id))){
+//     throw new apiError(400,"vedio ur seacrching for doesnot exist")
+//    }
 
 
 
@@ -168,7 +292,7 @@ const updateVideo = asyncHandler(async (req, res) => {
 
     const myVedio = await Vedio.findById(videoId)
 
-    if(!myVedio ||!(userVedio.owner.toString() === req.user._id.toString())){
+    if(!myVedio ||!(myVedio.owner.toString() === req.user._id.toString())){
         throw new apiError(400,"Cannot find the vedio")
     }
 
@@ -254,8 +378,8 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
      if(!vedioExisted.owner == req.user?._id)
     {   throw new apiError(400,"Not allowed to toggle")
     }
-    // console.log(vedioExisted.isPublished );
-    vedioExisted.isPublished = ! Vedio.isPublished
+    console.log(vedioExisted.isPublished );
+    vedioExisted.isPublished = ! vedioExisted.isPublished
    await vedioExisted.save({validateBeforeSave: false})
     // console.log( vedioExisted.isPublished);
 
@@ -276,5 +400,7 @@ export {
     updateVideo,
     deleteVideo,
     togglePublishStatus,
+    getAllVideosUser,
     getAllVideos,
+    incrementVideoViews
 }

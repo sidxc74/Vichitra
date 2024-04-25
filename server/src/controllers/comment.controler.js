@@ -10,7 +10,8 @@ import { apiResponse } from "../utils/apiResponse.js";
 const getVideoComments = asyncHandler(async (req, res) => {
     //TODO: get all comments for a video
     const {videoId} = req.params
-    const {page = 1, limit = 10} = req.query
+   
+    const {page = 1, limit = 8000} = req.query
 
 
     if(!videoId){
@@ -78,7 +79,12 @@ const getVideoComments = asyncHandler(async (req, res) => {
 const addComment = asyncHandler(async (req, res) => {
     // TODO: add a comment to a video
     const {videoId} = req.params;
+    console.log("videoooooo",videoId)
     const {commentData} = req.body;
+    console.log("videcccc",commentData)
+
+
+    console.log(videoId,commentData)
 
     if(!videoId){
         throw new apiError(400,"Vedio id is required");
@@ -92,6 +98,15 @@ const addComment = asyncHandler(async (req, res) => {
    if(!commentData){
     throw new apiError(400,"commentData required for commenting doesnot exist")
    }
+
+   const userId = req.user?.id
+
+   if(!userId){
+    throw new apiError(400,"user id required for commenting doesnot exist")
+   }
+
+   console.log('idididid',userId)
+   
 
    const commentCreated = await Comment.create({
     content:commentData,

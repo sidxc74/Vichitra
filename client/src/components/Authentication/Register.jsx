@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import useAuth from '../state/serverState';
-import { registerApi } from '../api/users.api';
-import useAuthStore from '../state/clientState';
+import {useAuth} from '../../state/serverState.js';
+import { registerApi } from '../../api/users.api.js';
+import useAuthStore from '../../state/clientState.js';
 import {useNavigate} from 'react-router-dom'
 
 function Register() {
@@ -15,14 +15,14 @@ function Register() {
     coverImage: null
   });
 
-  const isAuth = useAuthStore((state) => state.isAuthenticated)
+  
   
   const naviagte = useNavigate();
 
    const registerMutation = useAuth() 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    console.log(files)
+    
     setFormData({
       ...formData,
       [name]: files ? files[0] : value
@@ -31,13 +31,13 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData)
+    
     registerMutation.mutate({formData,callbackFn : registerApi})
     naviagte('/dashboard')
 
   };
 
-  if(!isAuth) return <p>not Authenticated</p>
+  
 
   return (
     <div className=' mt-36  mx-auto'>
@@ -143,7 +143,7 @@ function Register() {
                 onChange={handleChange}
               />
               <button type="submit" className="bg-red-600 px-4 py-3 text-white font-semibold">Sign Up</button>
-              <p className="text-black mt-8">Already a user? <Link to="/signin" className='text-red-700 font-semibold'>Sign in!!</Link></p>
+              <p className="text-black mt-8">Already a user? <Link to="/login" className='text-red-700 font-semibold'>Sign in!!</Link></p>
               <p className='text-sm font-semibold text-red-700  translate-y-8'>* marked fields are Required</p>
             </div>
           </div>

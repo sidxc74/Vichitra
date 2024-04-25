@@ -2,6 +2,7 @@ import asyncHandler from '../utils/asyncHandler.js'
 import apiError from '../utils/apiError.js'
 
 import { User} from '../models/user.models.js'  
+import { Vedio } from '../models/vedio.models.js'
 
 
 import { deleteOnClodinary, uplaodOnCloudinary } from '../utils/cloudinary.js' 
@@ -19,7 +20,7 @@ const generateAceesAndRefreshTokens = async(userId) => {
      const accesToken =   user.generateAccessToken()
      const refreshToken =   user.generateRefreshToken()
         
-     user. refreshToken = refreshToken
+     user.refreshToken = refreshToken
    
      await user.save({validateBeforeSave: false})
 
@@ -160,6 +161,7 @@ const loginUser = asyncHandler(async(req,res) => {
 
       //1.
       const {username,email,password} =  req.body
+      
     
       //2.
       if(!(username || email))
@@ -195,8 +197,7 @@ const loginUser = asyncHandler(async(req,res) => {
 
 
      const options = {
-        httpOnly: true,
-        secure : true
+       
      }
 
    
@@ -319,6 +320,27 @@ const getCurrentUser = asyncHandler(async(req,res)=>{
     )
 })
 
+
+const getUser = asyncHandler(async(req,res)=>{
+
+    const {userId} = req.params
+    if(!userId){
+        throw new apiError(400,"userId required")
+    }
+
+    const user = await User.findById(userId).select("-password -refreshToken")
+    if (!user) {
+        throw new apiError(401, "user don't exist")
+    }
+
+
+    return res.json(
+        new apiResponse(        200,
+              user,
+            "cureent user found successfully")
+    )
+})
+
 const updateAccountDetails = asyncHandler(async(req,res) => {
 
     const {fullName,email} = req.body
@@ -419,79 +441,115 @@ const updateUserCoverImage = asyncHandler(async(req,res) => {
         )
 })
 
-const getUserChannelProfile = asyncHandler(async(req,res)=>{
-  
-    const {username} = req.params
-    if(!username?.trim()){
-        throw new apiError(400,"username is missing")
+const getUserChannelProfile = asyncHandler(async (req, res) => {
+    const { username } = req.params;
+    
+
+    
+    if (!username?.trim()) {
+        throw new apiError(400, "Username is missing");
     }
 
-  const channel = await User.aggregate([
+    const channel = await User.aggregate([
         {
-            $match:{
-                username:username
+            $match: {
+                username: username.toLowerCase()
             }
         },
         {
-            $lookup:{
-                from:"subscriptions",
-                localField:"_id",
-                foreignField:"channel",
-                as:"subscriber"
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "channel",
+                as: "subscriberr"
             }
         },
         {
-            $lookup:{
-                from:"subscriptions",
-                localField:"_id",
-                foreignField:"subscriber",
-                as:"subscriberTo"
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "subscriber",
+                as: "subscriberTo"
             }
         },
         {
-           $addFields:{
-            subscribedCount:{
-                $size:"$subscriber"
-            },
-            channelSubscribedToCount:{
-                $size:"$subsciberTo"
-            },
-            isSubscribed:{
-                $cond:{
-                    if:{$in: [req.user?._id,"$subscriber.subscriber"]},
-                    then:true,
-                    else:false
+            $addFields: {
+                subscribedCount: { $size: "$subscriberr" },
+                channelSubscribedToCount: { $size: "$subscriberTo" },
+                isSubscribed: {
+                    $anyElementTrue: {
+                        $map: {
+                            input: "$subscriberr",
+                            as: "subscriber",
+                            in: {
+                                $in: [req.user?._id, "$subscriberr.subscriber"]
+                            }
+                        }
+                    }
                 }
-            },
-            
-           },
-         
+            }
         },
         {
-            $project:{
-                fullName:1,
-                username:1,
-                email:1,
-                subscribedCount:1,
-                channelSubscribedToCount:1,
-                isSubscribed:1,
-                avatar:1,
-                coverImage:1,
+            $project: {
+                fullName: 1,
+                username: 1,
+                email: 1,
+                subscribedCount: 1,
+                channelSubscribedToCount: 1,
+                isSubscribed: 1,
+                avatar: 1,
+                coverImage: 1,
+                subscriber:1,
             }
         }
-    ])
+    ]);
+    
 
-    if(!channel?.length){
-        throw new apiError(400,"Pipline not wotking channel doesnot exist")
+    if (!channel?.length) {
+        throw new apiError(400, "Channel does not exist");
     }
+
     return res.status(200).json(
         new apiResponse(
             200,
             channel[0],
-            "user channel fetched succesfully"
+            "User channel fetched successfully"
         )
-    )
-})
+    );
+});
+
+
+const updateUserWatchHistory = asyncHandler(async (req, res) => {
+    console.log("here",req.body)
+    const { videoId } = req.body;
+
+    console.log("vid",videoId)
+
+    
+
+    const userId = req.user._id;
+
+    
+    // await User.findByIdAndUpdate(
+    //     userId,
+    //     {
+    //         $pull: { watchHistory: { _id: videoId } }
+    //     }
+    // );
+
+    // Add the new video to watchHistory array
+    const user = await User.findByIdAndUpdate(
+        userId,
+        {
+            $push: { watchHistory: videoId }
+        },
+        { new: true } // Option to return the updated document
+    ).select("-password");
+
+    // Respond with the updated user
+    res.json(user);
+});
+
 
 const getWatchHistory = asyncHandler(async(req,res)=>{
    
@@ -557,6 +615,7 @@ export {loginUser ,
     getUserChannelProfile,
     updateUserCoverImage,
     getWatchHistory,
+    updateUserWatchHistory
     
 
 }

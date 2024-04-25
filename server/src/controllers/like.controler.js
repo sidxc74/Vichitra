@@ -14,6 +14,8 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
     //TODO: toggle like on video
   
 try {
+
+    console.log("hehe",videoId)
     
         if(!videoId){
             throw new apiError(400,"vedio ID not found")
@@ -171,34 +173,63 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 )
 
 const getLikedVideos = asyncHandler(async (req, res) => {
-    //TODO: get all liked videos
+    
 
    
   try {
-     const likedVedios = await Like.aggregate([
-          {
-              $match:{
-                  likedBy:new mongoose.Types.ObjectId( req.user?._id)
-              }
-          },
-          {
-              $lookup:{
-                  from:"vedios",
-                  localField:"vedio",
-                  foreignField:"_id",
-                  as:"likedvedios"
-              }
-          },
-          {
-              $unwind:"$likedvedios"
-          },
-          {
-              $project:{
-                  likedvedios :1
-              }
-          }
-  
-      ])
+
+    const pipline=[ {
+        $match:{
+            likedBy:new mongoose.Types.ObjectId( req.user?._id)
+        }
+    },
+    {
+        $lookup:{
+            from:"vedios",
+            localField:"vedio",
+            foreignField:"_id",
+            as:"likedvedios"
+        }
+    },
+    {
+        $unwind:"$likedvedios"
+    },
+    {
+        $project:{
+            likedvedios :1
+        }
+    }]
+
+    pipline.push({
+        $lookup: {
+            from: "users", // Assuming your user collection is named 'users'
+            localField: "likedvedios.owner",
+            foreignField: "_id",
+            as: "ownerInfo"
+        }
+    });
+
+    pipline.push({
+        $addFields: {
+            "likedvedios.owner": { $arrayElemAt: ["$ownerInfo", 0] }
+        }
+    });
+
+    
+
+    pipline.push({
+        $project: {
+            ownerInfo: 0 // Remove the ownerInfo field from the response
+        }
+    });
+
+    console.log(pipline)
+
+
+
+
+    
+     const likedVedios = await Like.aggregate(pipline)
   
       if(!likedVedios)
       {
@@ -224,9 +255,25 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     
 })
 
+const getAllLikesForVideo = asyncHandler(async (req, res) => {
+    try {
+      const { videoId } = req.params; 
+      console.log("videoid",videoId)
+  
+      
+      const likes = await Like.find({ vedio: videoId });
+  
+      res.status(200).json({ likes });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while fetching likes for the video.' });
+    }
+  });
+
 export {
     toggleCommentLike,
     toggleTweetLike,
     toggleVideoLike,
-    getLikedVideos
+    getLikedVideos,
+    getAllLikesForVideo
 }

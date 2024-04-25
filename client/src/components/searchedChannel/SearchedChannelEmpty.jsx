@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MyEmptyComponent() {
+function SearchedChannelEmptyy() {
   return (
     <div className="flex justify-center p-4">
           <div className="w-full max-w-sm text-center">
@@ -28,4 +28,4 @@ function MyEmptyComponent() {
   )
 }
 
-export default MyEmptyComponent
+export default SearchedChannelEmptyy

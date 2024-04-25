@@ -1,13 +1,16 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-function Sidebar() {
+function Sidebar({path}) {
+  
   return (
     <aside
-    className="group fixed inset-x-0 bottom-0 z-40 w-full shrink-0 border-t border-black bg-white px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px] lg:sticky lg:max-w-[250px]">
+    className={`group fixed inset-x-0 bottom-0 z-40 w-full shrink-0 border-t border-black bg-white px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px] ${!path ? 'lg:sticky lg:max-w-[250px]' : ''}`}>
     <ul className="flex justify-around gap-y-2 sm:sticky sm:top-[106px] sm:min-h-[calc(100vh-130px)] sm:flex-col">
       <li className="">
-        <button
-          className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+        
+        <NavLink to='/'
+          className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
               style={{"width":"100%"}}
@@ -22,12 +25,13 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">Home</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>Home</span>
+        </NavLink>
+      
       </li>
       <li className="hidden sm:block">
-        <button
-         className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+      <NavLink to='/mychannel/liked'
+        className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>   
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
               style={{"width":"100%"}}
@@ -42,12 +46,13 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">Liked Videos</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>Liked Videos</span>
+  
+      </NavLink>
       </li>
       <li className="">
-        <button
-         className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+      <NavLink
+        className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
               style={{"width":"100%"}}
@@ -62,12 +67,14 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">History</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>History</span>
+        
+      </NavLink>
       </li>
       <li className="hidden sm:block">
-        <button
-         className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+      <NavLink
+        to='/mychannel'
+        className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
              style={{"width":"100%"}}
@@ -88,12 +95,14 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">My Content</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>My Content</span>
+        
+      </NavLink>
       </li>
       <li className="">
-        <button
-         className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+      <NavLink
+      to='/nnc'
+        className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
               style={{"width":"100%"}}
@@ -108,12 +117,14 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">Collections</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>Collections</span>
+        
+      </NavLink>
       </li>
       <li className="">
-        <button
-         className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+      <NavLink
+        to='/sjd'
+         className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
               style={{"width":"100%"}}
@@ -128,12 +139,15 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">Subscribers</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>Subscribers</span>
+        
+      </NavLink>
       </li>
       <li className="hidden sm:block mt-auto">
-        <button
-         className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+      <NavLink
+      to='/hdhd'
+        
+         className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
               style={{"width":"100%"}}
@@ -148,12 +162,14 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">Support</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>Support</span>
+        
+      </NavLink>
       </li>
       <li className="hidden sm:block">
-        <button
-         className="flex flex-col items-center justify-center rounded-xl border-black py-1 focus:text-red-600 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white sm:focus:border-white sm:focus:bg-red-600 sm:focus:text-white sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4">
+      <NavLink
+      to='/dashboard'
+         className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
               style={{"width":"100%"}}
@@ -174,8 +190,9 @@ function Sidebar() {
                 strokeLinejoin="round"></path>
             </svg>
           </span>
-          <span className="block sm:hidden sm:group-hover:inline lg:inline">Settings</span>
-        </button>
+          <span className={`block sm:hidden sm:group-hover:inline ${!path ? 'lg:inline' : ''  }`}>Settings</span>
+        
+      </NavLink>
       </li>
     </ul>
   </aside>

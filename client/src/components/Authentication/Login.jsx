@@ -1,9 +1,9 @@
 // Login.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import useAuth from '../state/serverState';
-import { loginApi } from '../api/users.api';
-import useAuthStore from '../state/clientState';
+import {useAuth} from '../../state/serverState.js';
+import { loginApi } from '../../api/users.api.js';
+import useAuthStore from '../../state/clientState.js';
 import {useNavigate} from 'react-router-dom'
 
 function Login() {
@@ -13,20 +13,18 @@ function Login() {
     });
 
     const loginMutation = useAuth();
-    const login = useAuthStore(state => state.login)
     const navigate = useNavigate()
 
     const handleLogin = (e) => {
-        console.log(e)
-        console.log(formData)
+        
          loginMutation.mutate({formData : formData,callbackFn: loginApi},
           {
-            onSuccess : () => {
+            onSuccess : (data) => {
 
-                login();
-                sessionStorage.setItem('isAuth',JSON.stringify(true))
-                console.log('its success')
-                navigate('/register')
+                
+                sessionStorage.setItem('isAuth',JSON.stringify(data))
+                
+                navigate('/')
             },
             onError : () => {
               console.log('its not')
@@ -84,7 +82,7 @@ function Login() {
                             className="mb-4 rounded-lg border bg-transparent w-64 px-3 py-2"
                         />
                         <button className="bg-red-600 px-4 py-3 text-white font-semibold" onClick={handleLogin}>Sign in</button>
-                        <p className="text-black mt-8">New here? <Link to="/signup" className='text-red-700 font-semibold'>Sign Up!!</Link></p>
+                        <p className="text-black mt-8">New here? <Link to="/register" className='text-red-700 font-semibold'>Sign Up!!</Link></p>
                     </div>
                 </div>
             </div>

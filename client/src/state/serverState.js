@@ -1,8 +1,12 @@
 // useAuth.js
-import { useMutation } from '@tanstack/react-query';
-import { loginApi } from '../api/users.api';
+import { useMutation, useQuery, QueryClient } from '@tanstack/react-query';
+import { loginApi } from '../api/users.api.js';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from './clientState';
+import { getAllVideoApi, uploadVideoApi } from '../api/video.api.js';
+
+const queryClient = new QueryClient();
+
 
 
 function useAuth() {
@@ -14,23 +18,15 @@ function useAuth() {
         try {
             
             const data = await callbackFn(formData);
-            console.log("apisuccess",data)
+            
             return data; 
         } catch (error) {
             
-            console.error("Error during Auth:", error);
+            
             throw error; 
         }
-    },
-    onSuccess:(data, variables) => {
-        login();
-            console.log('its success')
-            navigate('/register')
-
-    },
-    onError: () => {
-            console.log('its not')
     }
+    
     
 
 },
@@ -42,6 +38,50 @@ function useAuth() {
     return authMutation;
 }
 
-export default useAuth;
+
+const  useVideo = () => {
+
+    return useQuery({
+        queryKey: ['videos'],
+        queryFn: getAllVideoApi
+    })
+
+}
+
+
+
+function useUploadVideo() {
+    return  useMutation({
+        mutationKey: ['videos'],
+        mutationFn: async (formData) => {
+            try {
+                const data = await uploadVideoApi(formData);
+                
+                return data;
+            } catch (error) {
+                
+                throw error;
+            }
+        },
+        onSuccess: () => {
+            // Invalidate the 'videos' query to trigger refetching
+            queryClient.invalidateQueries('videos');
+        },
+    });
+
+    
+}
+
+
+
+
+
+
+export { 
+    
+    useAuth,
+    useVideo,
+    useUploadVideo
+}
 
 
