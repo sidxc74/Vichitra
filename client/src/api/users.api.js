@@ -6,6 +6,7 @@ const loginApi = async (formData) => {
     try {
         
         const response = await axiosInstance.post(`/v1/users/login`, formData);
+        console.log("here")
         return response.data; 
     } catch (error) {
         
