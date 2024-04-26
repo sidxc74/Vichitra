@@ -20,6 +20,7 @@ function Login() {
          loginMutation.mutate({formData : formData,callbackFn: loginApi},
           {
             onSuccess : (data) => {
+                console.log(data)
 
                 
                 sessionStorage.setItem('isAuth',JSON.stringify(data))
