@@ -11,6 +11,7 @@ app.use(
     cors({
       origin: ['https://xube.vercel.app','https://xube-amif7ymsy-sidxcs-projects.vercel.app/login', 'http://localhost:5173'], // Replace with the origin of your frontend application
       credentials: true
+      
     })
   )
 
