@@ -197,14 +197,18 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
      const options = {
+        sameSite : "none",
+        secure: true,
+        domain: "https://xube.vercel.app",
+        httpOnly: true
        
      }
 
    
 
      return res.status(200)
-     .cookie("accessToken",accesToken)
-     .cookie("refreshToken",refreshToken)
+     .cookie("accessToken",accesToken,options)
+     .cookie("refreshToken",refreshToken,options)
      .json(
         new apiResponse(
             200,
