@@ -158,23 +158,19 @@ const registerUser = asyncHandler(async(req,res) => {
 
 
 
-const loginUser = asyncHandler(async(req,res) => {
-
-
-      //1.
-      const {username,email,password} =  req.body
-      
-    
-      //2.
-      if(!(username || email))
-      {
-        throw new apiError(400,'username or email is required')
-      }
-
-      //3. 
-      const existedUser =  await User.findOne({
-        $or: [{username} ,{email}]
-      })
+const loginUser = asyncHandler(async (req, res) => {
+    // 1.
+    const { username, email, password } = req.body;
+  
+    // 2.
+    if (!(username || email)) {
+      throw new apiError(400, 'username or email is required');
+    }
+  
+    // 3.
+    const existedUser = await User.findOne({
+      $or: [{ username }, { email }],
+    });
   
          
       if(!existedUser){
