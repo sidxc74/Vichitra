@@ -198,7 +198,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
      const options = {
         sameSite : "none",
-        secure: true,
         domain: "https://xube.vercel.app",
        
      }
