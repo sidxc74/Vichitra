@@ -32,8 +32,13 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    registerMutation.mutate({formData,callbackFn : registerApi})
-    naviagte('/dashboard')
+    registerMutation.mutate({formData,callbackFn : registerApi},{
+      onSuccess : () => {
+        alert("registered Sucessfuly")
+        naviagte('/dashboard')
+      }
+    })
+    
 
   };
 
