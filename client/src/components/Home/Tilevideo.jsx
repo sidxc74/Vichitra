@@ -27,7 +27,7 @@ state={video}
 to= {`/video/${video._id}`} 
 >
 
-<div className="w-full" >
+<div className="w-full max-w-[300px]" >
   <div className="relative mb-2 w-full pt-[56%]">
     <div className="absolute inset-0">
       <img

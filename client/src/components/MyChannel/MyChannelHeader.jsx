@@ -9,14 +9,14 @@ function MyChannelHeader() {
     <div className="flex flex-wrap gap-4 pb-4 pt-6">
           <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
             <img
-              src={user.avatar}
+              src={user?.avatar}
               alt="Channel"
               className="h-full w-full" />
           </span>
           <div className="mr-auto inline-block">
-            <h1 className="font-bold text-xl">{user.fullName}</h1>
-            <p className="text-sm text-gray-400">{`@${user.username}`}</p>
-            <p className="text-sm text-gray-400">{user.subscriber.length} Subscribers · {user.subscribeTo.length} Subscribed</p>
+            <h1 className="font-bold text-xl">{user?.fullName}</h1>
+            <p className="text-sm text-gray-400">{`@${user?.username}`}</p>
+            <p className="text-sm text-gray-400">{user.subscriber?.length} Subscribers · {user.subscribeTo?.length} Subscribed</p>
           </div>
           <div className="inline-block">
             <div className="inline-flex min-w-[145px] justify-end">

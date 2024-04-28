@@ -35,7 +35,7 @@ function MyChannelHome() {
     <>
       
         {
-            uploadVideo ? <MyChannelUpload  /> : videos?.length > 0 ?<MyChannelVideo videos={videos} />: <MyChannelEmpty setUploadVideo={setUploadVideo} />
+            uploadVideo ? <MyChannelUpload  /> : videos && videos?.length > 0 ?<MyChannelVideo videos={videos} />: <MyChannelEmpty setUploadVideo={setUploadVideo} />
         }
     
     

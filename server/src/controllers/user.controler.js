@@ -17,12 +17,14 @@ const generateAceesAndRefreshTokens = async(userId) => {
     try{
 
     const user =await User.findById(userId);
-     const accesToken =   user.generateAccessToken()
+     const accesToken =    user.generateAccessToken()
      const refreshToken =   user.generateRefreshToken()
         
      user.refreshToken = refreshToken
    
      await user.save({validateBeforeSave: false})
+     console.log("accesToken", accesToken)
+     console.log("refreshToken", refreshToken)
 
      return {accesToken,refreshToken}
     }
@@ -156,52 +158,67 @@ const registerUser = asyncHandler(async(req,res) => {
 
 
 
-const loginUser = asyncHandler(async (req, res) => {
-    // 1.
-    const { username, email, password } = req.body;
+const loginUser = asyncHandler(async(req,res) => {
+
+
+      //1.
+      const {username,email,password} =  req.body
+      
+    
+      //2.
+      if(!(username || email))
+      {
+        throw new apiError(400,'username or email is required')
+      }
+
+      //3. 
+      const existedUser =  await User.findOne({
+        $or: [{username} ,{email}]
+      })
   
-    // 2.
-    if (!(username || email)) {
-      throw new apiError(400, 'username or email is required');
-    }
-  
-    // 3.
-    const existedUser = await User.findOne({
-      $or: [{ username }, { email }],
-    });
-  
-    if (!existedUser) {
-      throw new apiError(404, 'Sign up first || user does not exist');
-    }
-  
-    // 4.
-    const isPasswordValid = await existedUser.isPasswordCorrect(password);
-  
-    if (!isPasswordValid) {
-      throw new apiError(404, 'Username or password is invalid');
-    }
-  
-    // 5.
-    const { accessToken, refreshToken } = await generateAceesAndRefreshTokens(existedUser._id);
-  
-    const loggedUser = await User.findById(existedUser._id).select('-password -refreshToken');
-  
-    const options = {
-      // Set cookie options here
-    };
-  
-    return res
-      .status(200)
-      .cookie('accessToken', accessToken, options)
-      .cookie('refreshToken', refreshToken, options)
-      .json(
-        new apiResponse(200, {
-          user: loggedUser,
-          accessToken,
-          refreshToken,
-        }, 'User logged in successfully')
-      );
-  });
+         
+      if(!existedUser){
+        throw new apiError(404,"Sign up first || user doen not exiseted")
+      }   
+      
+    
+      //3.  
+      const isPasswordValid =  await existedUser.isPasswordCorrect(password)
+      
+
+      if(!isPasswordValid)
+      {
+        
+        throw new apiError(401,"Username or password is Invalid")
+      } 
+
+      //4.
+     const {accesToken,refreshToken} =  await generateAceesAndRefreshTokens(existedUser._id)
+
+     
+     const loggesUser = await User.findById(existedUser._id).select("-password -refreshToken")
+
+
+
+     const options = {
+       
+     }
+
+   
+
+     return res.status(200)
+     .cookie("accessToken",accesToken)
+     .cookie("refreshToken",refreshToken)
+     .json(
+        new apiResponse(
+            200,
+            {
+                user: loggesUser,accesToken,refreshToken
+            },
+            "User logged in Successfully"
+        )
+     )
+})
 
 const logoutUser = asyncHandler(async(req,res) => {
     
