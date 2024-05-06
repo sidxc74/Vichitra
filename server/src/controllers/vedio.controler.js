@@ -81,7 +81,14 @@ const getAllVideos = asyncHandler(async(req,res) => {
   { '$sort': { isPublished: 1 } },
   { '$skip': 0 },
   { '$limit': 10 }
+
 ] */
+
+pipline.push({
+    $match: {
+        isPublished: true
+    }
+});
 
    const allVedios =  await Vedio.aggregate(pipline)
    if(!allVedios){

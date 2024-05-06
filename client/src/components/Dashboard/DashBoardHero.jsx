@@ -78,11 +78,11 @@ function DashBoardHero({user,setEditVid, setedit, setdeleted}) {
               <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                 <div className="flex justify-center">
                   <label
-                    for="vid-pub-1"
+                    for={video._id}
                     className="relative inline-block w-12 cursor-pointer overflow-hidden">
                     <input
                       type="checkbox"
-                      id="vid-pub-1"
+                      id={video._id}
                       className="peer sr-only"
                       checked={video?.isPublished}
                       onChange={(e)=>handleChange(video._id)}

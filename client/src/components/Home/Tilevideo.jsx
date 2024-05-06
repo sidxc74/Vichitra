@@ -17,7 +17,7 @@ function Tilevideo() {
   
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
+    <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]  gap-16 p-4">
         {videos?.map((video) => (
 
           
@@ -27,13 +27,13 @@ state={video}
 to= {`/video/${video._id}`} 
 >
 
-<div className="w-full max-w-[300px]" >
+<div className="w-full mx-auto max-w-[300px] " >
   <div className="relative mb-2 w-full pt-[56%]">
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 rounded-xl ">
       <img
         src={video.thumbnail}
         alt="Getting Started with Express.js"
-        className="h-full w-full"
+        className="h-full w-full border border-white rounded-2xl"
       />
     </div>
     <span className="absolute bottom-1 right-1 inline-block rounded bg-black/70 text-white px-1.5 text-sm">

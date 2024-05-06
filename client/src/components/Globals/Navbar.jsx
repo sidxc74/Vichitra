@@ -9,12 +9,8 @@ function Navbar() {
    if(data) {var user = data.data.user}
 
   
-  
-
-
-
   return (
-    <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-black text-black bg-white px-4">
+    <header className="sticky inset-x-0 top-0 z-50 w-full border-b text-black bg-white px-4">
     <nav className="mx-auto flex max-w-7xl items-center py-2">
       <div className="mr-4 w-12 shrink-0 sm:w-16">
       <button
@@ -25,7 +21,7 @@ function Navbar() {
       </div>
       <div className="relative mx-auto hidden w-full max-w-md overflow-hidden  sm:block">
         <input
-          className="w-full border bg-transparent py-1 pl-8 pr-3 border-black placeholder-gray-600 outline-none sm:py-2"
+          className="w-full border bg-transparent py-1 pl-8 pr-3 border-black rounded-full placeholder-gray-600 outline-none sm:py-2"
           placeholder="Search" />
         <span className="absolute left-2.5 top-1/2 inline-block -translate-y-1/2">
           <svg
@@ -65,8 +61,8 @@ function Navbar() {
         <span className="block h-[2px] w-full bg-black group-hover:bg-red-600"></span>
       </button>
       <div
-        className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-black text-black bg-white duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
-        <div className="relative flex w-full items-center justify-between border-b border-black px-4 py-2 sm:hidden">
+        className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l  text-black bg-white duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
+        <div className="relative flex w-full items-center justify-between border-b  px-4 py-2 sm:hidden">
         <img src="./logo.ico" alt="Logo" className='object-cover ' />
           <button className="inline-block w-8">
             <svg
@@ -189,7 +185,7 @@ function Navbar() {
                 <img
                 src={user.avatar}
                 alt="React-Patterns"
-                className="h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12" />
+                className="h-16 w-16 shrink-0 rounded-full  border  border-gray-300 sm:h-12 sm:w-12" />
                 <div className="w-full pt-2 sm:hidden">
                 <h6 className="font-semibold">React Patterns</h6>
                 <p className="text-sm text-gray-300">@reactpatterns</p>

@@ -1,5 +1,5 @@
 {
-  "name": "project",
+  "name": "server",
   "version": "1.0.0",
   "description": "project banayege",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "javascript",
     "backend"
   ],
-  "author": "dev",
+  "author": "Sidak Chuchra",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.3",
