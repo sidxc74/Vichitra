@@ -15,7 +15,7 @@ function Tilevideo() {
 
   if(isLoading){
     return (
-      <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]  gap-16 p-4">
+      <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))]  gap-x-16 gap-y-6 p-4">
         {
             array.map((a) => (
               <div key={a} className="w-full mx-auto max-w-[300px] " >
