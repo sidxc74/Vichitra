@@ -45,13 +45,13 @@ function Login() {
     return (
         <div className=' min-h-[100vh] flex justify-center items-center bg-gradient-to-r from-red-600 via-red-700 to-black'>
         <div className='w-3/5'>
-            <div className="flex w-full mx-auto flex-col my-auto justify-center items-center bg-white text-black border-2 border-gray-200 rounded-2xl">
+            <div className="flex w-full  flex-col my-auto justify-center items-center bg-white text-black border-2 border-gray-200 rounded-2xl">
                 <div className="my-10 w-full flex justify-around items-center">
-                    <div>
-                        <div className="mx-auto inline-block">
-                            <img src="logo.ico" alt="Logo" />
-                        </div>
-                    </div>
+                    
+                        
+                            <img src="vichitralogo.png" className='w-2/5 object-cover'  alt="Logo" />
+                        
+                    
                     <div className='flex flex-col justify-center items-center'>
                         <label
                             htmlFor="email"

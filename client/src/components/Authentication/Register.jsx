@@ -50,12 +50,11 @@ function Register() {
     <div className='w-4/5 mx-auto'>
       <div className="flex w-full h-[550px] mx-auto flex-col  justify-center items-center  bg-white text-black border-2 border-gray-200 rounded-2xl">
         <form onSubmit={handleSubmit}>
-          <div className="my-10 min-w-full gap-40 flex justify-around  items-center ">
-            <div>
-              <div className="mx-auto inline-block ">
-                <img src="logo.ico" alt="Logo" />
-              </div>
-            </div>
+          <div className="my-10 min-w-full gap-20 flex justify-around  items-center ">
+            
+             
+                <img src="vichitralogo.png" className='w-2/5 object-cover' alt="Logo" />
+             
             <div className='flex flex-col justify-center items-center'>
               <label
                 htmlFor="fullname"

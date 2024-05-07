@@ -10,14 +10,14 @@ function Navbar() {
 
   
   return (
-    <header className="sticky inset-x-0 top-0 z-50 w-full border-b text-black bg-white px-4">
+    <header className="sticky inset-x-0 top-0 h-16 z-50  w-full border-b text-black bg-white px-4">
     <nav className="mx-auto flex max-w-7xl items-center py-2">
       <div className="mr-4 w-12 shrink-0 sm:w-16">
       <button
       onClick={() => {
         navigate('/')
       }}
-      ><img src="logo.ico" alt="Logo" className=' object-cover ' /></button>
+      ><img src="logohome.png" alt="Logo" className=' object-cover ' /></button>
       </div>
       <div className="relative mx-auto hidden w-full max-w-md overflow-hidden  sm:block">
         <input
