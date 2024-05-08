@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 function MyChannelHeader() {
 
@@ -30,11 +31,30 @@ function MyChannelHeader() {
             </div>
           </div>
         </div>
-        <ul className="no-scrollbar sticky top-[66px] z-[2] flex flex-row gap-x-2 overflow-auto p-2 rounded-xl border-b-2 border-red-600 bg-[#121212] py-2 sm:top-[82px]">
-          <li className="w-full"><button className="w-[80%] font-semibold text-l text-gray-200 px-3 py-1.5">Playlist</button></li>
-          <li className="w-full"><button className="w-[80%]  font-semibold text-l  px-3 py-1.5  text-red-600">Videos</button></li>
-          <li className="w-full"><button className="w-[80%] font-semibold text-l text-gray-200 px-3 py-1.5">Tweets</button></li>
-          <li className="w-full"><button className="w-[80%] font-semibold text-l text-gray-200 px-3 py-1.5">Subscribed</button></li>
+        <ul className="no-scrollbar sticky top-[66px] z-[2]  flex justify-between items-center flex-row overflow-auto p-2 rounded-xl border-b-2 border-red-600 bg-[#121212] py-2 sm:top-[82px]">
+          
+        <li className="w-full">
+  <NavLink to='/mychannel/videos' className={({ isActive }) => ` ${isActive ? "text-red-600" : "text-gray-200"}`}>
+  <button className='w-[80%] font-semibold text-l px-3 py-1.5'>Videos</button>
+  </NavLink>
+</li>
+<li className="w-full">
+  <NavLink to='/mychannel/playlist' className={({ isActive }) => ` ${isActive ? "text-red-600" : "text-gray-200"}`}>
+   <button className='w-[80%] font-semibold text-l px-3 py-1.5'> Playlist </button>
+  </NavLink>
+</li>
+<li className="w-full">
+  <NavLink to='/mychannel/tweet' className={({ isActive }) => ` ${isActive ? "text-red-600" : "text-gray-200"}`}>
+    <button className='w-[80%] font-semibold text-l px-3 py-1.5'>Tweets</button>
+  </NavLink>
+</li>
+<li className="w-full">
+  <NavLink to='/mychannel/tedh' className={({ isActive }) => ` ${isActive ? "text-red-600" : "text-gray-200"}`}>
+  <button className='w-[80%] font-semibold text-l px-3 py-1.5'>Subscribed</button>
+  </NavLink>
+</li>
+
+
           
         </ul>
       

@@ -179,7 +179,7 @@ function Navbar() {
 
                 <button className="flex w-full gap-4 text-left sm:items-center"
                   onClick={() => {
-                    navigate('/mychannel')
+                    navigate('/mychannel/videos')
                   }}
                 >
                 <img

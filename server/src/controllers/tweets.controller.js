@@ -34,15 +34,18 @@ const getUserTweets = asyncHandler(async (req, res) => {
     // TODO: get user tweets
 
     const {userId} = req.params;
+    console.log(userId)
 
     if(!userId ){
         throw new apiError(400,"for user tweets id is required")
     }
 
-   const tweet =  await User.findById(userId);
-   if(!tweet || !(tweet.owner.toString() == req.user._id.toString())){
+   const user =  await User.findById(userId);
+   console.log("tweet",user)
+   if(!user ){
     throw new apiError(400,"user doesnot found")
    }
+   console.log('here')
 
   const userTweets =  await Tweet.aggregate([
     {
@@ -53,10 +56,16 @@ const getUserTweets = asyncHandler(async (req, res) => {
 
     {
         $project:{
-            content:1
+            content:1,
+            createdAt :1
         }
+    },
+    {
+        $sort: { createdAt: -1 } // Sort by createdAt field in descending order
     }
    ])
+
+   console.log("hereee")
 
    if(!userTweets){
     throw new apiError(400,"user tweets not existed")

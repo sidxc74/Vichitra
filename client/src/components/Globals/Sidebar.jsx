@@ -52,6 +52,7 @@ function Sidebar({path}) {
       </li>
       <li className="">
       <NavLink
+        to= 'myChannel/watch-history'
         className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg
@@ -73,7 +74,7 @@ function Sidebar({path}) {
       </li>
       <li className="hidden sm:block">
       <NavLink
-        to='/mychannel'
+        to='/mychannel/videos'
         className={({isActive})=>`flex flex-col items-center justify-center rounded-xl py-1 sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-red-600 sm:hover:text-white ${isActive ? "border-white bg-red-600 text-white" : "border-black"} sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4`}>
           <span className="inline-block w-5 shrink-0 sm:group-hover:mr-4 lg:mr-4">
             <svg

@@ -22,6 +22,8 @@ import LikedVideosPage from './pages/LikedVideoPage.jsx'
 import WatchHistoryPage from './pages/WatchHistoryPage.jsx'
 import SearchedChannelPage from './pages/SearchedChannelPage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
+import MyChannelTweetPage from './pages/MyChannelTweetPage.jsx'
+import MyChannelTweetUpload from './components/MyChannel/MyChannelTweetUpload.jsx'
 
 
 
@@ -41,12 +43,20 @@ const router = createBrowserRouter([
         element: <Tilevideo />,
       },
       {
-        path: "mychannel",
+        path: "mychannel/videos",
         element: (
           <ProtectedRoute>
             <MyChannel />
           </ProtectedRoute>
         ),
+      },
+      {
+        path : 'myChannel/tweet',
+        element : (
+          <ProtectedRoute>
+            <MyChannelTweetPage />
+          </ProtectedRoute>
+        )
       },
       {
         path: "video/:videoId",
@@ -60,6 +70,7 @@ const router = createBrowserRouter([
             </ProtectedRoute>
         )
       },
+      
       {
         path : 'myChannel/watch-history',
         element : (

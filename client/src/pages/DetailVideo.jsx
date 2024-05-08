@@ -4,7 +4,7 @@ import VideoComments from '../components/Video/VideoComments';
 import RelatedVideos from '../components/Video/RelatedVideos';
 import { useLocation } from 'react-router-dom';
 import { QueryClient, useMutation } from '@tanstack/react-query';
-import { updateUserHistory } from '../api/users.api';
+import {  updateUserHistoryApi } from '../api/users.api';
 
 import { increaseViewsApi } from '../api/video.api';
 
@@ -15,7 +15,7 @@ function DetailVideo() {
   const queryClient = new QueryClient();
 
 
-  const {mutate} = useMutation({
+  const mutation1 = useMutation({
     mutationFn : async () => {
       const response = await increaseViewsApi(video?._id)
       console.log(response)
@@ -23,10 +23,20 @@ function DetailVideo() {
     }
   })
 
+  const mutation2 = useMutation({
+    mutationFn : async () => {
+      const response = await updateUserHistoryApi(video?._id)
+      console.log(response) 
+      return response.data
+    }
+  })
+
   useEffect(() => {
       if(video){
-        mutate(video._id,{
+        mutation1.mutate(video._id,{
         })
+        mutation2.mutate(video._id)
+
       }
   },[video])
 

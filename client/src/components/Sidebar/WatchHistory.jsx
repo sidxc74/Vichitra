@@ -1,29 +1,29 @@
 import React from 'react'
 import EmptyWatchHistory from './EmptyWatchHistory';
-import { getUserWatchHistory } from '../../api/users.api';
+import { getUserWatchHistoryApi } from '../../api/users.api';
 import { useQuery } from '@tanstack/react-query'
 import { NavLink } from 'react-router-dom';
 import { getTimeDifference } from '../../utils/timeDifference';
 
 function WatchHistory() {
  
-    const {data : videos} = useQuery({
-        queryKey : ['history'],
+    const {data : historyvideos} = useQuery({
+        queryKey : ['historyVideos'],
         queryFn : async () => {
-            const response = await getUserWatchHistory();
+            const response = await getUserWatchHistoryApi();
             console.log("in componenet",response.data)
             return response.data
         }
 
     })
 
-    
+    // console.log(videos)
 
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4 pt-2">
     {
     
-        videos?.length>0 ? videos?.map((video) => (
+        historyvideos?.length>0 ? historyvideos?.map((video) => (
           <div className="w-full max-w-[300px]" key={video?._id}>
             {console.log("inn",video)}
             <NavLink

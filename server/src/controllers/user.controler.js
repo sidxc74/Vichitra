@@ -29,7 +29,7 @@ const generateAceesAndRefreshTokens = async(userId) => {
      return {accesToken,refreshToken}
     }
     catch(error){
-        throw new apiError(500,"Somethng went wrong while generating access and frefresh token")
+        throw new apiError(500,{message :"Somethng went wrong while generating access and frefresh token"})
     }
 
     
@@ -48,7 +48,7 @@ const registerUser = asyncHandler(async(req,res) => {
     if(
         [fullName,email,username,password].some((feild)=> feild?.trim === " ")
     ){
-        throw new apiError(400,"All feilds is required")
+        throw new apiError(400,"Fields Marked with * are required")
     }
 
     if(!email.includes("@")){
@@ -62,7 +62,7 @@ const registerUser = asyncHandler(async(req,res) => {
     })
     if(existedUSer)
     {
-        throw new apiError(409,"User or Email already existed")
+        throw new apiError(409,"User or Email already existed, Please sign in....")
     }
 
 
@@ -164,7 +164,9 @@ const loginUser = asyncHandler(async (req, res) => {
   
     // 2.
     if (!(username || email)) {
-      throw new apiError(400, 'username or email is required');
+      return res.status(400).send({
+        message: "Username or email is required",
+      })
     }
   
     // 3.
@@ -174,7 +176,10 @@ const loginUser = asyncHandler(async (req, res) => {
   
          
       if(!existedUser){
-        throw new apiError(404,"Sign up first || user doen not exiseted")
+        
+        return res.status(404).send({
+            message: "Sign up first || user don't  exist",
+          })
       }   
       
     
@@ -185,7 +190,10 @@ const loginUser = asyncHandler(async (req, res) => {
       if(!isPasswordValid)
       {
         
-        throw new apiError(401,"Username or password is Invalid")
+        
+        return res.status(401).send({
+            message: "invalid credentials",
+          })
       } 
 
       //4.
@@ -553,57 +561,59 @@ const updateUserWatchHistory = asyncHandler(async (req, res) => {
 
 
 const getWatchHistory = asyncHandler(async(req,res)=>{
-   
-   const user =  await User.aggregate([
-    {
-        $match:{
-            _id: new mongoose.Types.ObjectId(req.user._id)
-        }
-    },
-    {
-        $lookup:{
-            from:"vedios",
-            localField:"_id",
-            foreignField:"owner",
-            as:"watchHistory",
-            pipeline:[
-                {
-                    $lookup:{
-                        from:"users",
-                        localField:"owner",
-                        foreignField:"_id",
-                        as:"owner",
-                        pipeline:[
-                            {
-                                $project:{
-                                    fullName:1,
-                                    username:1,
-                                    avatar:1
-                                }
-                            }
-                        ]
-                    }
-                },
-                {
-                    $addFields:{
-                        owner:{
-                            $first:"$owner"
-                        }
-                    }
+    
+    const user =  await User.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(req.user._id)
+            }
+        },
+        {
+            $lookup:{
+                from: "vedios",
+                localField: "watchHistory",
+                foreignField: "_id",
+                as: "watchHistory"
+            }
+        },
+        {
+            $unwind: "$watchHistory" // Unwind the watchHistory array
+        },
+        {
+            $lookup : {
+                from: "users",
+                localField: "watchHistory.owner",
+                foreignField: "_id",
+                as: "watchHistory.owner"
+            }
+        },
+        {
+            $unwind: "$watchHistory.owner" // Unwind the owner array
+        },
+        {
+            $group: {
+                _id: "$_id",
+                watchHistory: {
+                    $push: "$watchHistory" // Push the modified watchHistory objects back into an array
                 }
-            ]
+            }
         }
-    },
-    ])
+    ]);
+
+
+    console.log(user);
 
     return res.status(200).json(
         new apiResponse(
             200,
             user[0].watchHistory,
-            "Wtach history fetched successfully"
+            "Watch history fetched successfully"
         )
-    )
-})
+    );
+    });
+
+
+
 
 export {loginUser , 
     registerUser,

@@ -12,7 +12,7 @@ function Login() {
         password: ""
     });
 
-    const {mutate , isPending} = useAuth();
+    const {mutate , isPending, isError, error} = useAuth();
     const navigate = useNavigate()
 
     const handleLogin = (e) => {
@@ -42,6 +42,7 @@ function Login() {
         }));
     };
 
+    
     return (
         <div className=' min-h-[100vh] flex justify-center items-center bg-gradient-to-r from-red-600 via-red-700 to-black'>
         <div className='w-3/5'>
@@ -106,7 +107,11 @@ function Login() {
                             
                             </button>
                         <p className="text-black mt-3">New here? <Link to="/register" className='text-red-700 font-semibold'>Sign Up!!</Link></p>
+                        {isError && <p className=' text-red-600 text-[12px] font-semibold mt-4'>{error.response.data.message}</p>
+                            
+                        }
                     </div>
+                    
                 </div>
             </div>
         </div>

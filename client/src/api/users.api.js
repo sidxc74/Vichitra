@@ -47,7 +47,7 @@ const getChannelProfileApi = async (userName) => {
 }
 
 
-const updateUserHistory = async(videoId) => {
+const updateUserHistoryApi = async(videoId) => {
     try {
         console.log(videoId)
         const response = await axiosInstance.patch(`/v1/users/updatehistory`,{videoId})
@@ -65,7 +65,7 @@ const updateUserHistory = async(videoId) => {
 }
 
 
-const getUserWatchHistory = async() => {
+const getUserWatchHistoryApi = async() => {
     try {
         
         const response = await axiosInstance.get(`/v1/users/WatchHistory`)
@@ -83,8 +83,8 @@ const getUserWatchHistory = async() => {
 export{
     loginApi,
   registerApi,
-  updateUserHistory,
-  getUserWatchHistory,
+  updateUserHistoryApi,
+  getUserWatchHistoryApi,
   getChannelProfileApi
 
 }  

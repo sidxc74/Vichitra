@@ -29,7 +29,7 @@ function SearchedChannelPage() {
   return (<>
     <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
-          <img className={channel?.coverImage} />
+          <img  src={user.coverImage} />
         </div>
       </div>
       <div className="px-4 pb-4">
