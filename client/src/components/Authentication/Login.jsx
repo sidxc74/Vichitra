@@ -42,6 +42,13 @@ function Login() {
         }));
     };
 
+    const handleGuest = () => {
+        setFormData((_) => ({
+            email : "guest@gmail.com",
+            password : "guest123"
+        }))
+    }
+
     
     return (
         <div className=' min-h-[100vh] flex justify-center items-center bg-gradient-to-r from-red-600 via-red-700 to-black'>
@@ -92,7 +99,7 @@ function Login() {
                 role="status"
                 class="mr-2 inline-block h-5 w-5 animate-spin text-gray-800"
                 viewBox="0 0 100 101"
-                fill="none"
+                fill="red"
                 xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
@@ -106,10 +113,16 @@ function Login() {
                             }
                             
                             </button>
+                            <button className='bg-red-600 mt-4  text-center p-2 rounded-3xl  text-white font-semibold'
+                              onClick={handleGuest}
+                            >Get Guest Credentials</button>
+
                         <p className="text-black mt-3">New here? <Link to="/register" className='text-red-700 font-semibold'>Sign Up!!</Link></p>
                         {isError && <p className=' text-red-600 text-[12px] font-semibold mt-4'>{error.response.data.message}</p>
                             
                         }
+
+                        
                     </div>
                     
                 </div>

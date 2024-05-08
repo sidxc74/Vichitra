@@ -30,6 +30,19 @@ const registerApi = async (formData) =>
 
 }
 
+const logoutApi = async () => {
+    try {
+
+        const response = await axiosInstance.post('/v1/users/logout')
+        console.log(response)
+        return response
+        
+    } catch (error) {
+            console.log('error while logging out', error)
+            throw error
+    }
+}
+
 
 const getChannelProfileApi = async (userName) => {
 
@@ -85,6 +98,7 @@ export{
   registerApi,
   updateUserHistoryApi,
   getUserWatchHistoryApi,
-  getChannelProfileApi
+  getChannelProfileApi,
+  logoutApi
 
 }  
