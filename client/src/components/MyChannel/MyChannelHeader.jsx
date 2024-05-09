@@ -12,7 +12,7 @@ function MyChannelHeader() {
             <img
               src={user?.avatar}
               alt="Channel"
-              className="h-full w-full" />
+              className="h-full w-full object-cover" />
           </span>
           <div className="mr-auto inline-block">
             <h1 className="font-bold text-xl">{user?.fullName}</h1>

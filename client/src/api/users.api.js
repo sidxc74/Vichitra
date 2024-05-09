@@ -93,12 +93,25 @@ const getUserWatchHistoryApi = async() => {
     }
 }
 
+const searchApi = async(query) => {
+    try {
+        const response = await axiosInstance.post(`/v1/healthcheck`,{query})
+        console.log(response.data)
+        return response.data 
+    } catch (error) {
+        console.log("error in search api",error)
+        throw error
+        
+    }   
+}
+
 export{
     loginApi,
   registerApi,
   updateUserHistoryApi,
   getUserWatchHistoryApi,
   getChannelProfileApi,
-  logoutApi
+  logoutApi,
+  searchApi
 
 }  

@@ -40,11 +40,11 @@ function SearchedChannelHeader({channel}) {
   return (
     <>
     <div className="flex flex-wrap gap-4 pb-4 pt-6">
-          <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
+          <span className="relative p-2 -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
             <img
               src={channel?.avatar}
               alt="avatar"
-              className="h-full w-full" />
+              className="h-full object-cover w-full" />
           </span>
           <div className="mr-auto inline-block">
             <h1 className="font-bold text-xl">{channel?.fullName}</h1>

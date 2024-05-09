@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import MyChannelEmpty from '../components/MyChannel/MyChannelEmpty'
 import MyChannelHeader from '../components/MyChannel/MyChannelHeader'
@@ -15,21 +15,23 @@ import { getChannelProfileApi } from '../api/users.api'
 function SearchedChannelPage() {
 
     const {channelUserName} = useParams()
+   
+
     const {data:channel} = useQuery({
-        queryKey : ['channel',`${channelUserName}`],
-        queryFn : async () => {
-            const response = await getChannelProfileApi(channelUserName)
-            console.log("in search channel",response)
-            return response.data
-        }
-        
-    })
+      queryKey : ['channel',`${channelUserName}`],
+      queryFn : async () => {
+          const response = await getChannelProfileApi(channelUserName)
+          console.log("in search channel",response)
+          return response.data
+      }
+      
+  })
 
   
   return (<>
     <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
-          <img  src={user.coverImage} />
+          <img  src={channel?.coverImage} />
         </div>
       </div>
       <div className="px-4 pb-4">

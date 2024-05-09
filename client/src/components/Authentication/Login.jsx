@@ -20,10 +20,9 @@ function Login() {
          mutate({formData : formData,callbackFn: loginApi},
           {
             onSuccess : (data) => {
-                console.log(data)
 
                 
-                sessionStorage.setItem('isAuth',JSON.stringify(data))
+                sessionStorage.setItem('isAuth',JSON.stringify(data ? data : ""))
                 
                 navigate('/')
             },
@@ -118,7 +117,7 @@ function Login() {
                             >Get Guest Credentials</button>
 
                         <p className="text-black mt-3">New here? <Link to="/register" className='text-red-700 font-semibold'>Sign Up!!</Link></p>
-                        {isError && <p className=' text-red-600 text-[12px] font-semibold mt-4'>{error.response.data.message}</p>
+                        {isError && <p className=' text-red-600 text-[12px] font-semibold mt-4'>{error?.response?.data?.message || "Network Error"}</p>
                             
                         }
 

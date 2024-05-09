@@ -49,7 +49,7 @@ app.use('/api/v1/playlist',playlist)
 app.use('/api/v1/comment',comment)
 app.use('/api/v1/tweet',tweet)
 app.use('/api/v1/dashboard',dashboard)
-app.use('/api/v1/healtcheck',healthcheck)
+app.use('/api/v1/healthcheck',healthcheck)
 app.use('/api/v1/like',like)
 
 

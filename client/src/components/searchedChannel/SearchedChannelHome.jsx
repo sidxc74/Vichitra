@@ -9,7 +9,7 @@ function SearchedChannelHome({channel}) {
 
 
   const { data: videos, isLoading, isError, error } = useQuery({
-    queryKey: ['channelvideos'],
+    queryKey: ['channelvideos',`${channel?._id}`],
     queryFn: async () => {
       const response =  await getMyVideosApi(channel?._id)
       console.log("here",response)

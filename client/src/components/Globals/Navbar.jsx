@@ -1,6 +1,7 @@
 import React from 'react';
 import {  json, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../state/clientState';
+import Search from './Search';
 function Navbar() {
 
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ function Navbar() {
   
   return (
     <header className="sticky inset-x-0 top-0 h-16 z-50  w-full border-b text-black bg-white px-4">
-    <nav className="mx-auto flex max-w-7xl items-center py-2">
+    <nav className="mx-auto flex max-w-7xl  py-2">
       <div className="mr-4 w-12 shrink-0 sm:w-16">
       <button
       onClick={() => {
@@ -19,26 +20,7 @@ function Navbar() {
       }}
       ><img src="logohome.png" alt="Logo" className=' object-cover ' /></button>
       </div>
-      <div className="relative mx-auto hidden w-full max-w-md overflow-hidden  sm:block">
-        <input
-          className="w-full border bg-transparent py-1 pl-8 pr-3 border-black rounded-full placeholder-gray-600 outline-none sm:py-2"
-          placeholder="Search" />
-        <span className="absolute left-2.5 top-1/2 inline-block -translate-y-1/2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-            className="h-4 w-4">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-          </svg>
-        </span>
-      </div>
+      <Search />
       <button className="ml-auto sm:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +159,7 @@ function Navbar() {
           
           {data ? 
 
-                <button className="flex w-full gap-4 text-left sm:items-center"
+                <button className="flex w-full gap-4 text-left rounded-full sm:items-center"
                   onClick={() => {
                     navigate('/mychannel/videos')
                   }}
