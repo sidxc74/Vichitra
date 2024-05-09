@@ -7,6 +7,7 @@ import MyChannel from './pages/MyChannel'
 import DetailVideo from './pages/DetailVideo'
 import Scroll from './components/Scroll'
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 function Layout() {
 
