@@ -6,6 +6,7 @@ import Listvideo from './components/Home/Listvideo'
 import MyChannel from './pages/MyChannel'
 import DetailVideo from './pages/DetailVideo'
 import Scroll from './components/Scroll'
+import { Analytics } from "@vercel/analytics/react"
 
 function Layout() {
 
