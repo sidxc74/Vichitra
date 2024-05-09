@@ -1,8 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axiosInstance from '../../config/axios.config';
 import { searchApi } from '../../api/users.api';
+
 
 function Search() {
 
@@ -10,8 +11,10 @@ function Search() {
     const [search, setSearch] = useState('');
     const [usersResult, setusersResult] = useState([])
     const [videosResult, setVideosResult] = useState([])
-    const [showSerach, setShowSearch] = useState(false)
+    const [showSearch, setShowSearch] = useState(false)
+    const inputref = useRef()
     const navigate = useNavigate()
+    const ref=useRef()
     
     const debounce = (func) => {
         let timer;
@@ -21,25 +24,12 @@ function Search() {
                 timer = setTimeout(()=>{
                     timer = null
                     func.apply(context, args);
-                },300)
+                },100)
         }
     }
 
 
-    useEffect(() => {
-        if(search === '') return
-        else
-        {
-            mutate(search,{
-                onSuccess : (data) => {
-                    console.log(data.users)
-                    setusersResult((prev)=>data.users)
-                    setVideosResult(data.videos)
-                    
-                }
-            })
-        }
-    },[search])
+    
 
     const {mutate} = useMutation({
         mutationFn : async(search) => {
@@ -77,19 +67,38 @@ function Search() {
     const handleUserClick = (username) => {
         setShowSearch(false)
         setusersResult([])
+        inputref.current= username
         setVideosResult([])
         setSearch(username)
         navigate(`/channels/${username}`)
         
     }
 
+
+
+    //user click outside component close search
+
+    const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+            setShowSearch(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [])
+   
   return (
     <>
-    <div className="relative mx-auto hidden w-full max-w-md overflow-hidden  sm:block">
+    <div ref={ref}  className="relative mx-auto hidden w-full max-w-md overflow-hidden  sm:block">
        <div>
        <input
           className="w-full border bg-transparent py-1 pl-8 pr-3 border-black rounded-full placeholder-gray-600 outline-none sm:py-2"
           placeholder="Search" 
+          ref={inputref}
           onChange={optHandleChange }
           />
         <span className="absolute left-2.5 top-[21px] inline-block -translate-y-1/2">
@@ -108,7 +117,7 @@ function Search() {
           </svg>
         </span>
        </div>
-       <div className={`w-[420px] mt-2 mx-auto shadow-neutral-500  shadow-lg min-h-10 max-h-[400px] pt-4 px-2  z-50 overflow-y-auto rounded-3xl bg-white ${showSerach ? "" : "hidden"}`}>
+       <div className={`w-[420px] mt-2 mx-auto shadow-neutral-500  shadow-lg min-h-10 max-h-[400px] pt-4 px-2  z-50 overflow-y-auto rounded-3xl bg-white ${showSearch ? "" : "hidden"}`}>
             {usersResult.length>0 ||  videosResult.length>0 ? <ul>
                 {
                     usersResult?.map((user) => (

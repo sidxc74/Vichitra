@@ -18,7 +18,7 @@ function Navbar() {
       onClick={() => {
         navigate('/')
       }}
-      ><img src="logohome.png" alt="Logo" className=' object-cover ' /></button>
+      ><img src="https://res.cloudinary.com/backend-1/image/upload/v1715250199/logohome_jpcrfv.png" alt="Logo" className=' object-cover ' /></button>
       </div>
       <Search />
       <button className="ml-auto sm:hidden">
