@@ -44,7 +44,7 @@ function DetailVideo() {
 
   return (
     <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
-      <div className="col-span-12 pl-16 w-full">
+      <div className=" col-span-full  pl-16 w-full">
         <VideoPlayer video={video} />
         <VideoComments video={video} />
       </div>

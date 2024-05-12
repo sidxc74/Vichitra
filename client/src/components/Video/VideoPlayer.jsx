@@ -86,9 +86,10 @@ const handleClick = () => {
   return (
     <>
           <div className="relative mb-4 w-full pt-[56%]">
-            <div className="absolute inset-0">
+            <div className="absolute  inset-0">
             <ReactPlayer 
-            className="h-full w-full"
+            width="100%"
+            height="100%"
             url = {video?.vedioFile}
             loop={true}
             controls={true}
