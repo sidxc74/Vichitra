@@ -24,7 +24,7 @@ function Sidebar({path}) {
   
   return (
     <aside
-    className={`group fixed inset-x-0 bottom-0 z-40 w-full shrink-0 border bg-white px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px]    2xl:hover:max-w-[350px] ${!path ? 'lg:sticky lg:max-w-[250px]' : ''} transition-max-w ease-in-out duration-300`}>
+    className={`group fixed inset-x-0 bottom-0 z-40 w-full shrink-0 border bg-white px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px]    2xl:hover:max-w-[300px] ${!path ? 'lg:sticky lg:max-w-[250px]' : ''} transition-max-w ease-in-out duration-300`}>
     <ul className="flex justify-around gap-y-2 sm:sticky sm:top-[106px] sm:min-h-[calc(100vh-130px)] sm:flex-col">
       <li className="">
         
